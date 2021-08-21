@@ -11,7 +11,7 @@ const Router = express.Router();
 /*
 Route : /r
 Description : get all the food details based on particular restaurant
-Params: id
+Params: _id
 Access : Public
 Method : Get
 */
