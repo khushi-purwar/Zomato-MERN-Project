@@ -26,7 +26,7 @@ export default (passport)=>{
 
               if(user){
                 //generate token
-                const token = user.generateJwtToken();
+                const token = user.genarateJwtToken();
 
                 // return user
                   done(null, {user, token});
@@ -38,7 +38,7 @@ export default (passport)=>{
 
                 
                 //generate token
-              const token = user.generateJwtToken();
+              const token = user.genarateJwtToken();
 
                 // return user
                 done(null, {user, token});
@@ -52,7 +52,7 @@ export default (passport)=>{
     ));
 
     passport.serializeUser((userData, done) =>{
-        done(null, ...userData);
+        done(null, {...userData});
       });
 
     passport.deserializeUser((id, done) =>{

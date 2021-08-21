@@ -64,7 +64,7 @@ Route : /google
 Description : signin with google
 Params: none
 Access : Public
-Method : Post
+Method : GET
 */
 
 Router.get('/google',
@@ -76,11 +76,11 @@ Router.get('/google',
 
 
  /*
-Route : /google
+Route : /google/callback
 Description : Google signin callback
 Params: none
 Access : Public
-Method : Post
+Method : GET
 */
 
 Router.get('/google/callback', 
