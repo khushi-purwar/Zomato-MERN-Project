@@ -1,51 +1,62 @@
 // libraries
-import express from 'express';
-import passport from 'passport';
+import express from "express";
+import passport from "passport";
 
 // database model
-import {MenuModel} from '../../database/allModels';
-import {ImageModel} from '../../database/allModels';
+import { MenuModel, ImageModel, OrderModel } from "../../database/allModels";
 
 const Router = express.Router();
 
-
 /*
-Route : /list
-Description : get all list menu based on id
+Route : /
+Description : get all orders based on id
 Params: _id
 Access : Public
-Method : Get
+Method : GET
 */
 
-Router.get('/list/:_id', async(req,res)=>{
-    try{
-        const {_id} = req.params;
-        const menus = await MenuModel.findOne( _id );
+Router.get("/:_id", async (req, res) => {
+  try {
+    const { _id } = req.params;
+    const getOrders = await OrderModel.findOne({ user: _id });
 
-        return res.json({menus});
+    if (!getOrders) {
+      return res.status(404).json({ error: "User not found" });
     }
-    catch (error) {
-        return res.status(500).json({ error: error.message });
-      }
-})
+    return res.status(200).json({ orders: getOrders });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+});
 
 /*
-Route     /image
-Des       Get all menu images based on id
+Route     /new
+Des       add new order
 Params    _id
 Access    Public
-Method    GET  
+Method    POST  
 */
-Router.get("/image/:_id", async (req, res) => {
-    try {
-      const { _id } = req.params;
-      const menus = await ImageModel.findOne(_id);
-  
-      return res.json({ menus });
-    } catch (error) {
-      return res.status(500).json({ error: error.message });
-    }
-  });
 
+Router.post("/new/:_id", async (req, res) => {
+  try {
+    const { _id } = req.params;
+    const {orderDetails} = req.body;
+    const addNewOrder = await OrderModel.findOneAndUpdate(
+      {
+        user : _id,
+      },
+      {
+        $push : {orderDetails}
+      },
+      {
+        new:true
+      }
+    )
+    return res.status(200).json({order : addNewOrder });
+    
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+});
 
 export default Router;
