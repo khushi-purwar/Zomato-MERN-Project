@@ -20,13 +20,13 @@ const UserSchema = new mongoose.Schema({
             for : {type :String}
         }
     ],
-    phoneNumber : {
+    phoneNumber : [{
         type: Number
-    },
+    }],
 },{timestamps: true});
 
 UserSchema.methods.genarateJwtToken = function(){
-    return jwt.sign( {user:this._id.toString}, "ZomatoAPP");
+    return jwt.sign( {user:this._id.toString()}, "ZomatoAPP");
 
 }
 
@@ -39,7 +39,8 @@ UserSchema.statics.findByEmailAndPhone = async ({email, phoneNumber})=>{
         throw new Error("User already exists!");
     }
 
-}
+    return false;
+};
 
 UserSchema.statics.findByEmailAndPassword = async ({email, password})=>{
     // check whether user exists

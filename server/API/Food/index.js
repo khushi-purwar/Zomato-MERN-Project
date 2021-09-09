@@ -5,6 +5,9 @@ import passport from 'passport';
 // database model
 import {FoodModel} from '../../database/allModels';
 
+// validations
+import { VaildateCategory , VaildateRestaurantId} from '../../validation/food';
+
 const Router = express.Router();
 
 
@@ -18,6 +21,7 @@ Method : Get
 
 Router.get('/r/:_id', async(req,res)=>{         // r -> restaurant
     try{
+        await VaildateRestaurantId(req.params)
         const {_id} = req.params;
         const foods = await FoodModel.find( {restaurant: _id} )
 
@@ -38,6 +42,7 @@ Method : Get
 
 Router.get('/r/:category', async(req,res)=>{         // r -> restaurant
     try{
+        await VaildateCategory(req.params)
         const {category} = req.params;
         const foods = await FoodModel.find( {category : {
             $regex: category, $options: "i"

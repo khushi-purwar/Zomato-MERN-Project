@@ -7,6 +7,8 @@ import passport from 'passport';
 // Models
 import {UserModel} from '../../database/user';
 
+//  validations
+import { VaildateSignup , VaildateSignin} from '../../validation/auth';
 
 const Router = express.Router();
 
@@ -19,7 +21,10 @@ Method : Post
 */
 
 Router.post('/signup', async(req,res)=>{
+   
     try{
+
+        await VaildateSignup(req.body.credentials);
         await UserModel.findByEmailAndPhone(req.body.credentials)
          
         // save to db
@@ -36,7 +41,7 @@ Router.post('/signup', async(req,res)=>{
     }catch(error){
         return res.status(500).json({error : error.message})
     }
-})
+});
 
 /*
 Route : /signin
@@ -48,6 +53,8 @@ Method : Post
 
 Router.post('/signin', async(req,res)=>{
     try{
+        
+        await VaildateSignin(req.body.credentials);
         const user = await UserModel.findByEmailAndPassword(req.body.credentials)
         const token = user.genarateJwtToken();
         return res.status(200).json({ token, status:"success" });

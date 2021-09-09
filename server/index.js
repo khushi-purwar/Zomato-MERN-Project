@@ -10,6 +10,7 @@ import passport from 'passport';
 
 // configs
 import googleAuthConfig from './config/google.config'
+import routeConfig from './config/route.config';
 
 // microservices routes
 import Auth from './API/Auth';
@@ -23,6 +24,7 @@ import User from './API/User';
 // database connection
 import ConnectDB from "./database/connection";
 
+
 const zomato = express();
 
 // application middleware
@@ -35,6 +37,7 @@ zomato.use(passport.session());
 
 // passport configuration
 googleAuthConfig(passport);
+routeConfig(passport);
 
 // application routes
 zomato.use('/auth',Auth);
@@ -49,9 +52,9 @@ zomato.get('', (req,res)=>{
     res.json({message : "setup success"})
 })
 
-zomato.listen('4000',()=>{
+zomato.listen('8000',()=>{
     ConnectDB()
-    .then( ()=> console.log("Database connected successfully & Server started at port 4000!"))
+    .then( ()=> console.log("Database connected successfully & Server started at port 8000!"))
     .catch( ()=> console.log("Server is running , but database connection failed") )
     
 })

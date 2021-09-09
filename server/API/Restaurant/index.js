@@ -5,6 +5,10 @@ import passport from 'passport';
 // database model
 import {RestaurantModel} from '../../database/allModels';
 
+// validations
+import { VaildateRestaurantCity, VaildateRestaurantSearchString } from '../../validation/restaurant';
+import { VaildateRestaurantId} from '../../validation/food';
+
 const Router = express.Router();
 
 /*
@@ -17,6 +21,7 @@ Method : Get
 
 Router.get('/', async(req, res)=>{
     try{
+        await VaildateRestaurantCity(req.query);
         const {city} = req.query;
         const restaurants = await RestaurantModel.find({city});
         return res.json({restaurants});
@@ -36,6 +41,7 @@ Method : Get
 
 Router.get('/:_id',async(req, res)=>{
     try{
+        await VaildateRestaurantId(req.params);
         const {_id} = req.params;
         const restaurant = await RestaurantModel.findOne(_id);
         if(!restaurant)
@@ -59,6 +65,7 @@ Method : Get
 
 Router.get('/search', async(req,res) => {
     try{
+        await VaildateRestaurantSearchString(req.body);
         const {searchString} = req.body;
         const restaurants = await RestaurantModel.find({
             name : {$regex: searchString, $options: "i"}

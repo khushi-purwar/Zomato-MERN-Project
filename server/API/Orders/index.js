@@ -1,53 +1,62 @@
-// libraries
-import express from 'express';
+// Libraries
+import express from "express";
+import passport from "passport";
 
-// database model
-import {OrderModel} from '../../database/allModels';
+// Database modal
+import { OrderModel } from "../../database/allModels";
 
 const Router = express.Router();
 
+/*
+Route     /
+Des       Get all orders based on id
+Params    _id
+Access    Public
+Method    GET  
+*/
+Router.get("/:_id", passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      const { _id } = req.params;
+      const getOrders = await OrderModel.findOne({ user: _id });
+
+      if (!getOrders) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      return res.status(200).json({ orders: getOrders });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
+);
 
 /*
-Route : /r
-Description : get all the food details based on particular restaurant
-Params: _id
-Access : Public
-Method : Get
+Route     /new
+Des       Add new order
+Params    _id
+Access    Public
+Method    POST  
 */
+Router.post("/new", passport.authenticate("jwt"), async (req, res) => {
+  try {
+    const { _id } = req.session.passport.user._doc;
+    const { orderDetails } = req.body;
 
-Router.get('/r/:_id', async(req,res)=>{         // r -> restaurant
-    try{
-        const {_id} = req.params;
-        const foods = await FoodModel.find( {restaurant: _id} )
+    const addNewOrder = await OrderModel.findOneAndUpdate(
+      {
+        user: _id,
+      },
+      {
+        $push: { orderDetails },
+      },
+      { new: true }
+    );
 
-        return res.json({foods});
-    }
-    catch (error) {
-        return res.status(500).json({ error: error.message });
-      }
-})
-
-/*
-Route : /r
-Description : get all the food details based on particular restaurant
-Params: category
-Access : Public
-Method : Get
-*/
-
-Router.get('/r/:category', async(req,res)=>{         // r -> restaurant
-    try{
-        const {category} = req.params;
-        const foods = await FoodModel.find( {category : {
-            $regex: category, $options: "i"
-        }} );
-
-        return res.json({foods});
-    }
-    catch (error) {
-        return res.status(500).json({ error: error.message });
-      }
-})
-
+    return res.json({ order: addNewOrder });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+});
 
 export default Router;
