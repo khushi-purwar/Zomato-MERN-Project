@@ -103,7 +103,7 @@ const LargeTabs = () => {
 
   return (
     <>
-      <div className="hidden lg:flex container gap-14 px-20 mx-auto">
+      <div className="hidden lg:flex container gap-14 px-20 mx-auto my-8">
         
       {allTypes.map( (items)=> (
         <Link to={`/${items.id}`}>
@@ -130,7 +130,7 @@ const LargeTabs = () => {
 const FoodTab = () => {
   return (
     <>
-      <div>
+      <div className="">
         <MobileTabs />
         <LargeTabs />
       </div>
