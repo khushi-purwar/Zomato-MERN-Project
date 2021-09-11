@@ -4,7 +4,7 @@ import { IoMdArrowDropright } from "react-icons/io";
 const PictureCarouselCard = () => {
   return (
     <>
-      <div className="w-full h-80 relative px-4 overflow-hidden">
+      <div className="w-full h-56 lg:h-80 relative px-4 overflow-hidden">
         <div className="w-full h-full relative">
           <img
             src="https://b.zmtcdn.com/data/pictures/2/18503752/a1cd82498e16a143ecda57f57cb353b3.jpg?output-format=webp"
@@ -20,7 +20,7 @@ const PictureCarouselCard = () => {
           />
         </div>
 
-        <div className="absolute w-full left-8 bottom-2 text-white">
+        <div className="absolute w-full   bottom-2 text-white left-6 lg:left-8">
           <h4 className="z-10">Trending this week</h4>
           <h6 className="z-10 flex items-center">
             15 Places <IoMdArrowDropright className="text-2xl" />
