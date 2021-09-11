@@ -1,10 +1,9 @@
 import React from 'react'
 import Slider  from 'react-slick';
 
-import { NextArrow, PrevArrow } from "../CarouselArrow";
-
 // components
-import DeliveryCategory from './DeliveryCategory'
+import DeliveryCategory from './DeliveryCategory';
+import { NextArrow, PrevArrow } from "../CarouselArrow";
 
 
 const DeliveryCarousel = () => {
