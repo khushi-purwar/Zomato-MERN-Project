@@ -58,7 +58,7 @@ const DeliveryCarousel = () => {
     return (
         <>
             <h1 className="text-xl mb-4 font-semibold">Inspiration for your first order</h1>
-            <div className="lg:hidden flex flex-wrap justify-between gap-3 lg:gap-0">
+            <div className="lg:hidden flex flex-wrap justify-between gap-3 lg:gap-0 mb-3 ">
               {
                 categories.map( (food)=>(
                   < DeliveryCategory {...food} />
@@ -68,7 +68,7 @@ const DeliveryCarousel = () => {
            
             </div>
 
-            <div className="hidden lg:block">
+            <div className="hidden lg:block mb-6">
                 <Slider {...settings} >
                 {
                 categories.map( (food)=>(

@@ -2,7 +2,7 @@ import React from 'react'
 
 const NutritionCarouselCard = (props) => {
     return (
-        <div className="w-full h-72">
+        <div className="w-full h-48 md:h-72">
             <img 
                src={props.image} 
                alt="medicine" 
