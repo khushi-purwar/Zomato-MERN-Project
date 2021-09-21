@@ -32,7 +32,7 @@ Router.post('/signup', async(req,res)=>{
             req.body.credentials
         );
 
-        // generate JWT auth token
+        // // generate JWT auth token
         const token = newUser.genarateJwtToken();
 
         // return 
