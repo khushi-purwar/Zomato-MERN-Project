@@ -2,27 +2,59 @@ import React from "react";
 import Slider from "react-slick";
 import { Link, useParams } from "react-router-dom";
 import { IoMdArrowDropright } from "react-icons/io";
+
 import ReactStars from "react-rating-stars-component";
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+
 
 // components
 import MenuCollection from "../../Components/Restaurant/MenuCollection";
 import MenuSimilarRestaurantcard from "../../Components/Restaurant/MenuSimilarRestaurantcard";
 import { PrevArrow, NextArrow } from "../../Components/CarouselArrow";
 import ReviewCard from "../../Components/Restaurant/Reviews/reviewCard";
+import Mapview from "../../Components/Restaurant/Mapview";
 
 const Overview = () => {
   const { id } = useParams();
 
   const settings = {
-    arrows: true,
+   
     infinite: true,
     speed: 500,
     slidesToShow: 3,
-    slidesToScroll: 1,
+    slidesToScroll: 2,
+    initialSlide: 0,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          infinite: true,
+        },
+      },
+    ],
   };
+
 
   const ratingChanged = (newRating) => {
     console.log(newRating);
@@ -62,6 +94,18 @@ const Overview = () => {
               Tea
             </span>
           </div>
+
+                {/* for mobile device */}
+          <div className="my-4  w-full md:hidden flex flex-col gap-4">
+          <Mapview 
+            title="Agra Express" 
+            address="D-501, Kamla Nagar, Agra" 
+            mapLocation = { [27.25671102799571, 78.01930774221412] }
+            phno="+91 7872187178"
+          />
+         
+          </div>
+
           <div className="my-4">
             <h4 className="text-xl font-regular">Average Cost</h4>
             <h6>Rs 100 for one order (approx.)</h6>
@@ -112,6 +156,8 @@ const Overview = () => {
             />
           </div>
 
+    
+
           <h4 className="text-xl font-regular">Review Highlights</h4>
           <div className="my-4 flex flex-col gap-2">
             <ReviewCard />
@@ -120,34 +166,17 @@ const Overview = () => {
           </div>
         </div>
         <aside
-          className="hidden md:block md:w-4/12 sticky rounded-xl top-2 bg-white p-4 shadow-md"
+          className="hidden md:flex md:w-4/12 sticky rounded-xl top-2 bg-white p-4 shadow-md flex-col gap-4"
           style={{ height: "fit-content" }}
         >
-          <div>
-            <h4 className="text-xl font-regular">Call</h4>
-            <h5 className="text-zomato-200 font-medium">+91 8793872213</h5>
-          </div>
 
-          <div>
-            <h4 className="text-xl font-regular">Direction</h4>
-            <div className="w-full h-48">
-            <MapContainer
-              center={[27.25671102799571, 78.01930774221412]}
-              zoom={13}
-              scrollWheelZoom={false}
-            >
-              <TileLayer
-                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-              <Marker position={[27.25671102799571, 78.01930774221412]}>
-                <Popup>
-                  A pretty CSS3 popup. <br /> Easily customizable.
-                </Popup>
-              </Marker>
-            </MapContainer>
-            </div>
-          </div>
+          <Mapview 
+            title="Agra Express" 
+            address="D-501, Kamla Nagar, Agra" 
+            mapLocation = { [27.25671102799571, 78.01930774221412] }
+            phno="+91 7872187178"
+          />
+         
         </aside>
       </div>
     </>
