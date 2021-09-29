@@ -1,11 +1,22 @@
-import React from "react";
+import React, {useState} from "react";
 import { FaUserAlt } from "react-icons/fa";
 import { HiLocationMarker } from "react-icons/hi";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { RiSearch2Line } from "react-icons/ri";
 
-const MobileNav = () => {
+// components
+import SignIn from "../Auth/SignIn";
+import SignUp from "../Auth/SignUp";
+import UserDropdown from "./UserDropdown";
+
+
+const MobileNav = ({SignIn, SignUp}) => {
+
+  const [isDropDownOpen , setIsDropDownOpen] = useState(false);
+
   return (
+
+   
     <>
       <div className="flex w-full items-center justify-between lg:hidden ">
         <div className="w-24 h-8 ">
@@ -15,20 +26,33 @@ const MobileNav = () => {
             className="w-full h-full"
           />
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 relative">
           <button className="bg-zomato-400  text-white py-2 px-3 rounded-full">
             Use App
           </button>
-          <span className="border border-gray-500 p-2 text-zomato-300 rounded-full">
+
+          <span 
+          className="border border-gray-500 p-2 text-zomato-300 rounded-full"
+          onClick={ () => setIsDropDownOpen( (prev) => !prev)}
+          >
             <FaUserAlt />
           </span>
+
+         {
+           isDropDownOpen && (
+            <div className="absolute shadow-lg py-3 z-20 w-full -bottom-20 -right-4 bg-white flex flex-col gap-2">
+            <button onClick={SignIn}>Sign In</button>
+            <button onClick={SignUp}>Sign Up</button>
+            </div>
+           )
+         }
         </div>
       </div>
     </>
   );
 };
 
-const LargeNav = () => {
+const LargeNav = ({SignIn, SignUp}) => {
   return (
     <>
     <div className="hidden lg:inline container px-20 mx-auto">
@@ -64,8 +88,12 @@ const LargeNav = () => {
         </div>
 
         <div className="ml-20 flex gap-10">
-          <button className="text-gray-500 text-lg hover:text-gray-800">Log&nbsp;in</button>
-          <button className="text-gray-500 text-lg hover:text-gray-800">Sign&nbsp;up</button>
+          <button 
+             onClick={SignIn} 
+             className="text-gray-500 text-lg hover:text-gray-800">Log&nbsp;in</button>
+          <button 
+          onClick={SignUp} 
+          className="text-gray-500 text-lg hover:text-gray-800">Sign&nbsp;up</button>
         </div>
 
       </div>
@@ -76,11 +104,20 @@ const LargeNav = () => {
 
 
 const Navbar = () => {
+
+  const [openSignin, setOpenSignin] =useState(false);
+  const [openSignup, setOpenSignup] =useState(false);
+
+  const openSignInModal = ()=> setOpenSignin(true);
+  const openSignUpModal = ()=> setOpenSignup(true);
+
   return (
     <>
+    <SignIn isOpen={openSignin} setIsOpen={setOpenSignin} />
+    <SignUp isOpen={openSignup} setIsOpen={setOpenSignup} />
       <nav className="p-4 bg-white shadow-md lg:shadow-none flex item-center">
-        <MobileNav />
-        <LargeNav />
+        <MobileNav SignIn={openSignInModal}  SignUp={openSignUpModal} />
+        <LargeNav SignIn={openSignInModal} SignUp={openSignUpModal} />
 
       </nav>
     </>
